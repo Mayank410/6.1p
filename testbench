@@ -7,13 +7,13 @@ module traffic_control_tb;
   // Clock signal
   reg rst_a;
   // Reset signal
-  wire [2:0] n_lights, s_lights, e_lights, w_lights; // Output signals from the design
+  wire [2:0] e_lights, f_lights, z_lights, w_lights; // Output signals from the design
 
   // Instantiate the traffic_control module (DUT)
   traffic_control DUT (
-    .n_lights(n_lights),
-    .s_lights(s_lights),
-    .e_lights(e_lights),
+    .e_lights(n_lights),
+    .f_lights(s_lights),
+    .z_lights(e_lights),
     .w_lights(w_lights),
     .clk(clk),
     .rst_a(rst_a)
@@ -37,14 +37,14 @@ module traffic_control_tb;
 
     // Example test case 1: North lights green, others red
     #10;
-    if (n_lights !== 3'b100 || s_lights !== 3'b010 || e_lights !== 3'b010 || w_lights !== 3'b010) begin
+    if (e_lights !== 3'b100 || f_lights !== 3'b010 || z_lights !== 3'b010 || w_lights !== 3'b010) begin
       $display("Test case 1 failed");
       $finish;
     end
 
     // Example test case 2: North lights yellow, others red
     #10;
-    if (n_lights !== 3'b101 || s_lights !== 3'b010 || e_lights !== 3'b010 || w_lights !== 3'b010) begin
+    if (e_lights !== 3'b101 || f_lights !== 3'b010 || z_lights !== 3'b010 || w_lights !== 3'b010) begin
       $display("Test case 2 failed");
       $finish;
     end
