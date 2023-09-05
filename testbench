@@ -1,0 +1,58 @@
+`timescale 1ns/1ps
+
+module traffic_control_tb;
+
+  // Define signals for the testbench
+  reg clk;
+  // Clock signal
+  reg rst_a;
+  // Reset signal
+  wire [2:0] n_lights, s_lights, e_lights, w_lights; // Output signals from the design
+
+  // Instantiate the traffic_control module (DUT)
+  traffic_control DUT (
+    .n_lights(n_lights),
+    .s_lights(s_lights),
+    .e_lights(e_lights),
+    .w_lights(w_lights),
+    .clk(clk),
+    .rst_a(rst_a)
+  );
+
+  // Clock generation
+  initial begin
+    clk = 1'b0;
+    forever #5 clk = ~clk;
+  end
+
+  // Reset generation
+  initial begin
+    rst_a = 1'b1;
+    #10 rst_a = 1'b0; // Release reset after 10 time units
+  end
+
+  // Testbench behavior
+  initial begin
+    // Add your test cases here
+
+    // Example test case 1: North lights green, others red
+    #10;
+    if (n_lights !== 3'b100 || s_lights !== 3'b010 || e_lights !== 3'b010 || w_lights !== 3'b010) begin
+      $display("Test case 1 failed");
+      $finish;
+    end
+
+    // Example test case 2: North lights yellow, others red
+    #10;
+    if (n_lights !== 3'b101 || s_lights !== 3'b010 || e_lights !== 3'b010 || w_lights !== 3'b010) begin
+      $display("Test case 2 failed");
+      $finish;
+    end
+
+    // Add more test cases here
+
+    $display("All test cases passed");
+    $finish; // End simulation
+  end
+
+endmodule
